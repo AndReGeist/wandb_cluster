@@ -34,8 +34,8 @@ To get started with wandb, I created a [Google Colab]() using wandb to document 
 - Log the optimization results
 - Log the model parameters and gradient steps
 
-<img src="https://github.com/AndReGeist/wandb_cluster_neuralode/blob/main/images/Pasted%20image%2020230322135007.png" width="50%" height="50%">
-<img src="https://github.com/AndReGeist/wandb_cluster_neuralode/blob/main/images/Pasted%20image%2020230322135007.png" width="50%" height="50%">
+<img src="https://github.com/AndReGeist/wandb_cluster_neuralode/blob/main/images/Pasted%20image%2020230322135007.png" width="70%" height="70%">
+<img src="https://github.com/AndReGeist/wandb_cluster_neuralode/blob/main/images/Pasted%20image%2020230322134947.png" width="70%" height="70%">
 
 After playing around with the code, you can download the [python files and shell scripts]() and move on to using the HPC cluster.
 
