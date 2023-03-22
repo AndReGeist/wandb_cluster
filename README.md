@@ -1,6 +1,9 @@
-Research on optimizing ML models with many hyperparameters is **significantly more efficient** if we...
+Research on optimizing ML models with many parameters is **significantly more efficient** if we...
 - Offload computation to a cluster, to be able to scale computation
 - Automize logging and analyzing experiments using e.g. weights and biases
+
+This repository provides Python and Shell script to run experiments on a HPC cluster using [wandb](https://wandb.ai/site) to log and analyze experiments.
+As ML example, Neural ODE regression is chosen using JAX, Diffrax, Equinox, and Optax.
 
 # Weights and biases
 [Weights and biases](https://wandb.ai/site), aka wandb, is a platform for ML research that allows to:
@@ -31,8 +34,9 @@ To get started with wandb, I created a [Google Colab]() using wandb to document 
 - Log the optimization results
 - Log the model parameters and gradient steps
 
-![[images/Pasted image 20230322135007.png]]
-![[images/Pasted image 20230322134947.png]]
+![figure1](images/Pasted image 20230322135007.png)
+
+![figure2](images/Pasted image 20230322134947.png)
 
 After playing around with the code, you can download the [python files and shell scripts]() and move on to using the HPC cluster.
 
