@@ -1,17 +1,19 @@
 Research on optimizing ML models with many parameters is **significantly more efficient** if we...
-- Offload computation to a cluster, to be able to scale computation
-- Automize logging and analyzing experiments using e.g. weights and biases
+- Automate logging, analyzing experiments, and parameter search using e.g. weights and biases
+- Offload computation to a compute cluster, to be able to scale computation
 
 This repository provides Python and Shell script to run experiments on a HPC cluster using [wandb](https://wandb.ai/site) to log and analyze experiments.
-As ML example, Neural ODE regression is chosen using JAX, Diffrax, Equinox, and Optax.
+As ML example, supervised neural ODE regression is chosen using JAX, Diffrax, Equinox, and Optax.
+
+For a brief introduction to using W&B on a cluster, I recommend the following [video](https://www.youtube.com/watch?v=LRmnr3LMS-4).
 
 # Weights and biases
-[Weights and biases](https://wandb.ai/site), aka wandb, is a platform for ML research that allows to:
-- Track experiments
+[Weights and biases](https://wandb.ai/site), aka W&B, is a platform for ML research that allows to:
+- Track experiments (configurations, objective values)
 - Visualize the training process online (e.g. objective functions and gradients)
+- Track data sets and models
+- Automate parameter search
 - Share results with a team
-- Log data sets
-- Automize hyper-parameter search
 
 [Click here](https://theaisummer.com/weights-and-biases-tutorial/) for a brief introduction to wandb. To use wandb you need to:
 1) Create a free account (e.g. with an academic license)
@@ -19,47 +21,102 @@ As ML example, Neural ODE regression is chosen using JAX, Diffrax, Equinox, and 
 3) Specify the experiment hyperparameters in your python script using a simple command from wandb as well as store your loss using another wandb function.
 4) Run the experiment. Open your wandb account in a browser and marvel at all the shiny plots of your experiments.
 
-In addition, wandb allows to tune hyperparameters either with random-, grid-, or Bayes- search using so called [sweeps](https://docs.wandb.ai/guides/sweeps).
-
-With the above functionality of wandb, I setup **two code examples** (NeuralODE regression with JAX) that cover the following use-cases:
-1) You **specify the optimization hyperparameters in an excel**. The head of the excel specifies the parameter name and the $n$-th row specifies the $n$-th experiment parameters. When calling your Python script, you specify which row of the excel is used to create the config file.
-2) You **use a wandb sweep to do hyperparameter tuning** for you.
-
-In the above use cases,  I also used wandb's [data and model versioning functionality](https://theaisummer.com/weights-and-biases-tutorial/)
-
-To get started with wandb, I created a [Google Colab]() using wandb to document the training of a neural ODE (using JAX, Equinox, Diffrax, and Optax). In particular, I use wandb to:
+To get started with wandb, I created a [Google Colab](https://colab.research.google.com/github/AndReGeist/wandb_cluster_neuralode/blob/main/colab/basic_example.ipynb#scrollTo=qXAp1blGadTl). In this example, wandb is used to:
 - Log a dataset after creation on the wandb server
 - Load a data set before training from the wandb server
 - Log the training configurations
 - Log the optimization results
 - Log the model parameters and gradient steps
+- Automate parameter search with W&B sweeps
 
 <img src="https://github.com/AndReGeist/wandb_cluster_neuralode/blob/main/images/Pasted%20image%2020230322135007.png" width="70%" height="70%">
 <img src="https://github.com/AndReGeist/wandb_cluster_neuralode/blob/main/images/Pasted%20image%2020230322134947.png" width="70%" height="70%">
 
-After playing around with the code, you can download the [python files and shell scripts]() and move on to using the HPC cluster.
+After playing around with the code, you can download the [python files and shell scripts]() in the folder `cluster` and move on to using the HPC cluster.
 
 # HPC Cluster
-For the above use-cases, I want to speed up and parallize computation using a high performance compute cluster.
+A cluster enables us to scale computation if needed.
+
+<img src="https://pdc-support.github.io/hpc-intro/img/scheduling_jobs.png" width="70%" height="70%">
 
 For using the cluster (in my case the cluster of the RWTH Aachen), I found the following ressources helpful:
-- [Introduction to linux with nice Youtube videos](https://hpc-wiki.info/hpc/Introduction_to_Linux_in_HPC)
-- [RWTH high performance computing](https://help.itc.rwth-aachen.de/service/rhr4fjjutttf/)
+- [Introduction to linux with nice Youtube videos](https://hpc-wiki.info/hpc/Introduction_to_Linux_in_HPC), you should feel comfortable using console commands and VIM 
+- [Intro to job scheduling](https://pdc-support.github.io/hpc-intro/09-scheduling/)
+- [RWTH HPC](https://help.itc.rwth-aachen.de/service/rhr4fjjutttf/)
+- [RWTH cluster - slurm commands](https://help.itc.rwth-aachen.de/en/service/rhr4fjjutttf/article/3d20a87835db4569ad9094d91874e2b4/)
+- [RWTH cluster - account infos](https://help.itc.rwth-aachen.de/service/rhr4fjjutttf/article/23ef5b95361d4007836d7315618dbed9/)
+- [Batch script examples for RWTH cluster](https://help.itc.rwth-aachen.de/service/rhr4fjjutttf/article/6e4d3ad2573d4e41a5fab9b65dbd320a/)
+- [Getting started with HPC](https://hpc-wiki.info/hpc/Getting_Started)
+- [File transfer](https://hpc-wiki.info/hpc/File_Transfer)
+- [Youtube video on using W&B with a cluster](https://www.youtube.com/watch?v=LRmnr3LMS-4)
 
-To use the RWTH cluster you need to:
-1) Create an RWTH HPC account in [RegApp](https://regapp.itc.rwth-aachen.de) 
-2) Connect to the [cluster](https://help.itc.rwth-aachen.de/service/rhr4fjjutttf/article/b3027aeb8fd64f3d853e8ce70fbcfbe7/) via
-	- VPN (via password authentication or more conviniently using an [SSH key](https://hpc-wiki.info/hpc/Introduction_to_Linux_in_HPC/SSH_Connections))
-	- Desktop client
-3) Write a [shell script](https://hpc-wiki.info/hpc/Introduction_to_Linux_in_HPC/Shell_scripting) that instructs [SLURM](https://hpc-wiki.info/hpc/SLURM) what you want the cluster to do.
+The folder `cluster` contains the following files:
+- `basic_example.sh` - Contains the same code as the notebook. Here we want to run the functions `main()` or `create_dataset`.
+- `sb.sh` - A simple shell script that activates a conda environment and executes a command such as executing a Python script.
+- `sweep_config.yaml` - Contains the settings for the W&B sweep.
 
-For the afore mentioned usecases,  I wrote two shell scripts:
-1) A script for the **first use case** which uses SLURM [job arrays](https://hpc-wiki.info/hpc/SLURM#Array%20and%20Chain%20Jobs) to tell the cluster that we want to run the python script for all parameter settings (specified by the rows of the excel) **in parallel**.
-2) A script for the **second use case** which uses SLURM [job arrays](https://hpc-wiki.info/hpc/SLURM#Array%20and%20Chain%20Jobs) to split the potentially huge job into smaller jobs that are executed **one after the other**. This is necessary, as automatic parameter tuning via *sweep* might take a long time and to the best of my knowledge cannot be parallelized. So after a specified amount of time, SLURM saves the current program state and then starts a new job starting with the stored program state.
+**Useful console commands:**
+- Check job status of user `squeue -u <user_id> --start`
+- Check specific job status `squeue --job <job_id>`
+- Get job efficiency report `seff JOBID`
+- Cancel job `scancel <job_id>`
+- Get info on [job history](https://slurm.schedmd.com/sacct.html) `sacct`
+- Get manual on sbatch `man sbatch`
+- Get partition information `sinfo -s`
+- Check consumed core hours ``r_wlm_usage -p <cluster-project-name> -q``
 
-A benefit of using wandb is that we do not need to [transfer files](https://www.youtube.com/watch?v=gOYsbBxKXas) after optimization from the cluster to our local computer.
+## Set up your login node
+To use a HPC cluster you need to:
+1) Create an HPC account, e.g. for the RWTH cluster via [RegApp](https://regapp.itc.rwth-aachen.de) 
+2) Optional: Setup cluster login using [SSH key](https://hpc-wiki.info/hpc/Introduction_to_Linux_in_HPC/SSH_Connections)
+	1) Setup ssh key
+		1) Navigate to `.ssh` in home directory
+		2) Create key `ssh-keygen` and specify PW
+	2) Send key to cluster `ssh-copy-id -i <public-key-name> <user-name>@login18-1.hpc.itc.rwth-aachen.de`
+3) Optional: Create `config` file in `.ssh` with SSH preset:
+			   `host <short-name> HostName <host-name> User <username> TCPKeepAlive yes ForwardX11 yes`
+4) Write a [shell script](https://hpc-wiki.info/hpc/Introduction_to_Linux_in_HPC/Shell_scripting) that instructs [SLURM](https://hpc-wiki.info/hpc/SLURM) what you want the cluster's **compute nodes** to do. Check [scheduling basics](https://hpc-wiki.info/hpc/Scheduling_Basics).
+	- `--mem=<memlimit>` must not be used on RWTH clusters
+	- Shebang of the batch script **must be** `#!/usr/bin/zsh` on RWTH cluster
+5) Clone project from git `git clone <git-project-URL>`
+	- If authentication fails see [here](https://ginnyfahs.medium.com/github-error-authentication-failed-from-command-line-3a545bfd0ca8)
+6) Setup environment using conda:
+	- [using conda on RWTH cluster](https://help.itc.rwth-aachen.de/en/service/rhr4fjjutttf/article/960a597fa06e426ba304275a7584f8c8/#5.4)
+	- [conda tutorial by Princeton University](https://researchcomputing.princeton.edu/support/knowledge-base/python)
+	1) Install miniconda on login node
+	   `$ wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh`
+	   `$ bash Miniconda3-latest-Linux-x86_64.sh`
+	   `$ conda config --set auto_activate_base false`
+	   2) If `conda` command is not found execute `export PATH="/home/<username>/miniconda/bin:$PATH"` with your username.
+	   3) Install conda environment from yaml file `conda env create --file conda_env.yaml`
+	   4) Activate environment `conda activate <environment name>`
 
-After connecting to the cluster, run the following commands to start a job:
-1) Get git repo `...`
-2) Install libraries `...`
-3) Execute shell script `...`
+## Start jobs
+In a console window (Linux/ Mac OS) run the following commands to start a job:
+1) Connect to the [cluster](https://help.itc.rwth-aachen.de/service/rhr4fjjutttf/article/b3027aeb8fd64f3d853e8ce70fbcfbe7/) **login node** (after connecting to the RWTH vpn) via 
+   `ssh <username>@login18-1.hpc.itc.rwth-aachen.de`
+2) Start a [screen session](https://linuxize.com/post/how-to-use-linux-screen/) which keeps your linux session running in case your SSH disconnects:
+	- Start session `screen -S <session-name>`
+	- Reattach to linux screen 10386 `screen -r 10386`
+	- List running screen sessions `screen -ls`
+	- List all windows `<Ctrl+a> "`
+	- Switch to window 0 `<Ctrl+a>` `0`
+	- Close the current region `<Ctrl+a> X`
+	- Detach from screen session `<Ctrl+a> d`
+3) Activate conda environment `conda activate <env>` and login into wandb `wandb login` 
+4) Execute a shell script `sbatch sb.sh <python-call> <script-input parameters>`
+e.g. 
+`sbatch sb.sh python3 basic_example.py --seed 123`
+`sbatch sb.sh python3 -c 'import basic_example; create_dataset(seed_123)'` 
+5) Optional: [Transfer files](https://hpc-wiki.info/hpc/File_Transfer) from cluster node to local computer
+	- Using secure copy `scp your_username@remotehost.edu:foobar.txt /some/local/directory` for single files, e.g. `$ scp your_username@remotehost.edu:foobar.txt /some/local/directory`
+	- Using **rsync** for multiple files
+
+**W&B sweeps**
+To let W&B do the parameter search for you...
+1) Open W&B in your browser, navigate to `Projects / <project name> / Sweeps` and click on "Create Sweep"
+2) Copy "sweep.yaml" (in the repo folder `cluster`) and paste it into the browser. Click on "Intialize sweep"
+3) In the console execute `sbatch sb.sh wandb agent <name-of-sweep-as-in-wand-browser>` as often as you want. W&B will do the parameter selection and tell the compute nodes what to run.
+
+**Running job arrays**
+TBD
