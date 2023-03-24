@@ -1,0 +1,22 @@
+program: basic_example.py
+method: grid
+metric:
+  goal: minimize
+  name: loss_test
+parameters:
+  batch_size:
+      values: [32]
+  lr_strategy:
+      values: [[3e-3, 3e-3]]
+  steps_strategy:
+      values: [[500, 500]]
+  length_strategy:
+      values: [[0.1, 1]]
+  width_size:
+      values: [20, 64, 150]
+  depth:
+      values: [1, 2, 3]
+  seed:
+      values: [42]
+  print_every:
+      values: [100]
