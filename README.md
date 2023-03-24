@@ -38,6 +38,7 @@ After playing around with the code, you can download the python files and shell 
 A cluster enables us to scale computation if needed.
 
 <img src="https://pdc-support.github.io/hpc-intro/img/scheduling_jobs.png" width="50%" height="50%">
+
 [Image source](https://pdc-support.github.io/hpc-intro/09-scheduling/)
 
 For using the cluster (in my case the cluster of the RWTH Aachen), I found the following ressources helpful:
