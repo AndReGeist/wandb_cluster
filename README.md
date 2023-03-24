@@ -32,12 +32,13 @@ To get started with wandb, I created a [Google Colab](https://colab.research.goo
 <img src="https://github.com/AndReGeist/wandb_cluster_neuralode/blob/main/images/Pasted%20image%2020230322135007.png" width="70%" height="70%">
 <img src="https://github.com/AndReGeist/wandb_cluster_neuralode/blob/main/images/Pasted%20image%2020230322134947.png" width="70%" height="70%">
 
-After playing around with the code, you can download the [python files and shell scripts]() in the folder `cluster` and move on to using the HPC cluster.
+After playing around with the code, you can download the python files and shell scripts in the folder `cluster` and move on to using the HPC cluster.
 
 # HPC Cluster
 A cluster enables us to scale computation if needed.
 
-<img src="https://pdc-support.github.io/hpc-intro/img/scheduling_jobs.png" width="70%" height="70%">
+<img src="https://pdc-support.github.io/hpc-intro/img/scheduling_jobs.png" width="50%" height="50%">
+[Image source](https://pdc-support.github.io/hpc-intro/09-scheduling/)
 
 For using the cluster (in my case the cluster of the RWTH Aachen), I found the following ressources helpful:
 - [Introduction to linux with nice Youtube videos](https://hpc-wiki.info/hpc/Introduction_to_Linux_in_HPC), you should feel comfortable using console commands and VIM 
