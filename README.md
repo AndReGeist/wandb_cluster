@@ -114,7 +114,7 @@ e.g.
 `sbatch sb.sh python3 basic_example.py --seed 123`
 `sbatch sb.sh python3 -c 'import basic_example; create_dataset(seed_123)'` 
 5) Optional: [Transfer files](https://hpc-wiki.info/hpc/File_Transfer) from cluster node to local computer
-	- Using secure copy `scp your_username@remotehost.edu:foobar.txt /some/local/directory` for single files, e.g. `$ scp your_username@remotehost.edu:foobar.txt /some/local/directory`
+	- Using secure copy for single files, e.g. `$ scp your_username@remotehost.edu:foobar.txt /some/local/directory`
 	- Using **rsync** for multiple files
 
 **W&B sweeps**
