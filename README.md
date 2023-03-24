@@ -42,20 +42,23 @@ A cluster enables us to scale computation if needed.
 [Image source](https://pdc-support.github.io/hpc-intro/09-scheduling/)
 
 For using the cluster (in my case the cluster of the RWTH Aachen), I found the following ressources helpful:
-- [Introduction to linux with nice Youtube videos](https://hpc-wiki.info/hpc/Introduction_to_Linux_in_HPC), you should feel comfortable using console commands and VIM 
+- [Introduction to linux with nice Youtube videos](https://hpc-wiki.info/hpc/Introduction_to_Linux_in_HPC), you should feel comfortable using console commands and VIM
+- [Getting started with HPC](https://hpc-wiki.info/hpc/Getting_Started)
 - [Intro to job scheduling](https://pdc-support.github.io/hpc-intro/09-scheduling/)
-- [RWTH HPC](https://help.itc.rwth-aachen.de/service/rhr4fjjutttf/)
+- [RWTH HPC mainpage](https://help.itc.rwth-aachen.de/service/rhr4fjjutttf/)
 - [RWTH cluster - slurm commands](https://help.itc.rwth-aachen.de/en/service/rhr4fjjutttf/article/3d20a87835db4569ad9094d91874e2b4/)
 - [RWTH cluster - account infos](https://help.itc.rwth-aachen.de/service/rhr4fjjutttf/article/23ef5b95361d4007836d7315618dbed9/)
-- [Batch script examples for RWTH cluster](https://help.itc.rwth-aachen.de/service/rhr4fjjutttf/article/6e4d3ad2573d4e41a5fab9b65dbd320a/)
-- [Getting started with HPC](https://hpc-wiki.info/hpc/Getting_Started)
-- [File transfer](https://hpc-wiki.info/hpc/File_Transfer)
-- [Youtube video on using W&B with a cluster](https://www.youtube.com/watch?v=LRmnr3LMS-4)
+- [RWTH cluster - Batch script examples](https://help.itc.rwth-aachen.de/service/rhr4fjjutttf/article/6e4d3ad2573d4e41a5fab9b65dbd320a/)
 
 The folder `cluster` contains the following files:
-- `basic_example.sh` - Contains the same code as the notebook. Here we want to run the functions `main()` or `create_dataset`.
+- `basic_example.py` - Contains the same code as the notebook. Here we want to run the functions `main()` or `create_dataset`.
 - `sb.sh` - A simple shell script that activates a conda environment and executes a command such as executing a Python script.
 - `sweep_config.yaml` - Contains the settings for the W&B sweep.
+
+In what follows, we do the following jobs on the cluster:
+1) Run the script `basic_example.py` using python-fire to conveniently assign input parameters through the console
+2) Setup a W&B sweep to do automatic parameter search on the cluster and manually assign compute nodes on the cluster on which the W&B agent executes `basic_example.py`
+3) Basically the above step, but we use a "job array" to run many jobs for the W&B sweep in parallel. 
 
 **Useful console commands:**
 - Check job status of user `squeue -u <user_id> --start`
