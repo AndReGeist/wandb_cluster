@@ -3,9 +3,14 @@ channels:
   - conda-forge
   - defaults
 dependencies:
-  - pip
+  - pip        
   - pip:
-      - diffrax
+      - wandb
+      - matplotlib
+      - jax
+      - jaxlib
+      - optax
       - equinox
+      - diffrax
       - fire
 prefix: /opt/anaconda3/envs/diffrax
