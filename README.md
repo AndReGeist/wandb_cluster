@@ -98,7 +98,6 @@ In a console window (Linux/ Mac OS) run the following commands to start a job:
 	- Reattach to linux screen 10386 `screen -r 10386`
 	- List running screen sessions `screen -ls`
 	- List all windows `<Ctrl+a> "`
-	- Switch to window 0 `<Ctrl+a>` `0`
 	- Close the current region `<Ctrl+a> X`
 	- Detach from screen session `<Ctrl+a> d`
 3) Activate conda environment `conda activate <env>` and login into wandb `wandb login` 
