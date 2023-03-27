@@ -111,6 +111,7 @@ e.g.
 	- Using **rsync** for multiple files
 
 **W&B sweeps**
+
 To let W&B do the parameter search for you...
 1) Open W&B in your browser, navigate to `Projects / <project name> / Sweeps` and click on "Create Sweep"
 2) Copy "sweep_config.yaml" (in the repo folder `cluster`) and paste it into the browser. Click on "Intialize sweep"
@@ -121,6 +122,7 @@ To let W&B do the parameter search for you...
 as often as you want. W&B will do the parameter selection and tell the compute nodes what to run. If you want to run many jobs at ones, it is better to use SLURM job arrays as detailed below.
 
 **Running W&B sweeps using SLURM job arrays**
+
 A sweep might run for a long time, depending on how many parameters shall be checked. If a job is too long, it takes more time until the job gets a free slot on the cluster and potentially costs more cluster credits. We avoid these issues by using SLURM [job arrays](https://hpc-wiki.info/hpc/SLURM#Array_and_Chain_Jobs) in the shell script `sb_gpu_arr.sh`. Here, we run in total 30 jobs á 10 minutes with 5 jobs running at the same time by using the command...
 ```
 #SBATCH --array=1-30%5
