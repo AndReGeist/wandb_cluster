@@ -29,9 +29,6 @@ To get started with wandb, I created a [Google Colab](https://colab.research.goo
 - Log the model parameters and gradient steps
 - Automate parameter search with W&B sweeps
 
-<img src="https://github.com/AndReGeist/wandb_cluster_neuralode/blob/main/images/Pasted%20image%2020230322135007.png" width="70%" height="70%">
-<img src="https://github.com/AndReGeist/wandb_cluster_neuralode/blob/main/images/Pasted%20image%2020230322134947.png" width="70%" height="70%">
-
 After playing around with the code, you can download the python files and shell scripts in the folder `cluster` and move on to using the HPC cluster.
 
 # HPC Cluster
@@ -120,8 +117,50 @@ e.g.
 **W&B sweeps**
 To let W&B do the parameter search for you...
 1) Open W&B in your browser, navigate to `Projects / <project name> / Sweeps` and click on "Create Sweep"
-2) Copy "sweep.yaml" (in the repo folder `cluster`) and paste it into the browser. Click on "Intialize sweep"
-3) In the console execute `sbatch sb.sh wandb agent <name-of-sweep-as-in-wand-browser>` as often as you want. W&B will do the parameter selection and tell the compute nodes what to run.
+2) Copy "sweep_config.yaml" (in the repo folder `cluster`) and paste it into the browser. Click on "Intialize sweep"
+3) In the console execute
+   ```
+   sbatch sb.sh wandb agent <name-of-sweep-as-in-wand-browser>
+   ```
+as often as you want. W&B will do the parameter selection and tell the compute nodes what to run. If you want to run many jobs at ones, it is better to use SLURM job arrays as detailed below.
 
-**Running job arrays**
-TBD
+**Running W&B sweeps using SLURM job arrays**
+A sweep might run for a long time, depending on how many parameters shall be checked. If a job is too long, it takes more time until the job gets a free slot on the cluster and potentially costs more cluster credits. We avoid these issues by using SLURM [job arrays](https://hpc-wiki.info/hpc/SLURM#Array_and_Chain_Jobs) in the shell script `sb_gpu_arr.sh`. Here, we run in total 30 jobs á 10 minutes with 5 jobs running at the same time by using the command...
+```
+#SBATCH --array=1-30%5
+```
+Starting a wandb sweep with SLURM job arrays is the same as before while the sbatch command slightly changed... 
+```
+sbatch sb_gpu_arr.sh wandb agent <name-of-sweep-as-in-wand-browser>`
+```
+
+For a **very long simulation**, you can use the shell command to tell SLURM that you want to run 30 jobs after each other...
+```
+#SBATCH --array=1-30%1
+```
+...and call the shell script as follows...
+```
+sbatch sb_arr_altered.sh python3 <simulation-file-name> -statefile=simstate.state
+```
+If the simulation does not finish in time it will be followed by the next array task, which picks up right at where the simulation left (by reading in "simstate.state").
+
+## Handy tricks
+The python-fire library automatically generates command line interfaces (CLIs) from python objects, e.g. assume you have a Python file "main.py"...
+def main(batch_size=32, seed=5678):
+		"""some program"""
+		
+if __name__ == '__main__':  
+    fire.Fire(main)
+... allows to run main from the console via...
+
+python main.py --seed=42
+You can open a second console and connect to the same remote computer. Then, the console command top provides a dynamic real-time view of the system.
+The only way for Slurm to detect success or failure of running the Python program is the exit code of your job script. You can store the exitcode after executing the program to prevent it from being overwritten...
+#!/bin/bash
+#SBATCH …
+myScientificProgram …
+EXITCODE=$?
+cp resultfile $HOME/jobresults/
+/any/other/job/closure/cleanup/commands …
+exit $EXITCODE
+As mentioned previously, when using SSH to connect to the cluster, it is handy to specify a presetname and using an SSH key as explained in this video.
