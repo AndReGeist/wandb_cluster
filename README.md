@@ -1,5 +1,5 @@
 Research on optimizing ML models with many parameters is **significantly more efficient** if we...
-- Automate logging, analyzing experiments, and parameter search using e.g. weights and biases
+- Automate experiment logging and parameter search with weights and biases
 - Offload computation to a compute cluster, to be able to scale computation
 
 This repository provides Python and Shell script to run experiments on a HPC cluster using [wandb](https://wandb.ai/site) to log and analyze experiments.
