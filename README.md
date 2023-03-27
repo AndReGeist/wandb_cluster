@@ -145,17 +145,22 @@ sbatch sb_arr_altered.sh python3 <simulation-file-name> -statefile=simstate.stat
 If the simulation does not finish in time it will be followed by the next array task, which picks up right at where the simulation left (by reading in "simstate.state").
 
 ## Handy tricks
-The python-fire library automatically generates command line interfaces (CLIs) from python objects, e.g. assume you have a Python file "main.py"...
+- The python-fire library automatically generates command line interfaces (CLIs) from python objects, e.g. assume you have a Python file "main.py"...
+```python
 def main(batch_size=32, seed=5678):
-		"""some program"""
+	"""some program"""
 		
 if __name__ == '__main__':  
     fire.Fire(main)
-... allows to run main from the console via...
-
+```
+... then you can run main from the console via...
+```python
 python main.py --seed=42
-You can open a second console and connect to the same remote computer. Then, the console command top provides a dynamic real-time view of the system.
+```
+
+- You can open a second console and connect to the same remote computer. Then, the console command top provides a dynamic real-time view of the system.
 The only way for Slurm to detect success or failure of running the Python program is the exit code of your job script. You can store the exitcode after executing the program to prevent it from being overwritten...
+```
 #!/bin/bash
 #SBATCH …
 myScientificProgram …
@@ -163,4 +168,4 @@ EXITCODE=$?
 cp resultfile $HOME/jobresults/
 /any/other/job/closure/cleanup/commands …
 exit $EXITCODE
-As mentioned previously, when using SSH to connect to the cluster, it is handy to specify a presetname and using an SSH key as explained in this video.
+```
