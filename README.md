@@ -34,10 +34,6 @@ After playing around with the code, you can download the python files and shell 
 # HPC Cluster
 A cluster enables us to scale computation if needed.
 
-<img src="https://pdc-support.github.io/hpc-intro/img/scheduling_jobs.png" width="50%" height="50%">
-
-[Image source](https://pdc-support.github.io/hpc-intro/09-scheduling/)
-
 For using the cluster (in my case the cluster of the RWTH Aachen), I found the following ressources helpful:
 - [Introduction to linux with nice Youtube videos](https://hpc-wiki.info/hpc/Introduction_to_Linux_in_HPC), you should feel comfortable using console commands and VIM
 - [Getting started with HPC](https://hpc-wiki.info/hpc/Getting_Started)
