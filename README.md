@@ -154,7 +154,7 @@ if __name__ == '__main__':
 python main.py --seed=42
 ```
 
-- You can open a second console and connect to the same remote computer. Then, the console command `top provides a dynamic real-time view of the system.
+- You can open a second console and connect to the same remote computer. Then, the console command `top` provides a dynamic real-time view of the system.
 The only way for Slurm to detect success or failure of running the Python program is the exit code of your job script. You can store the exitcode after executing the program to prevent it from being overwritten...
 ```
 #!/bin/bash
