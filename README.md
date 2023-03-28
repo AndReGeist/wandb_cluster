@@ -1,11 +1,12 @@
-Research on optimizing ML models with many parameters is **significantly more efficient** if we...
+Research on optimizing ML models with many parameters is **more efficient** if we...
 - Automate experiment logging and parameter search with weights and biases
-- Offload computation to a compute cluster, to be able to scale computation
+- Offload computation to a compute cluster enabling us to scale computation
 
-This repository provides Python and Shell script to run experiments on a HPC cluster using [wandb](https://wandb.ai/site) to log and analyze experiments.
-As ML example, supervised neural ODE regression is chosen using JAX, Diffrax, Equinox, and Optax.
+This repository provides Python and Shell script examples demonstrating how to run experiments on a HPC cluster using [wandb](https://wandb.ai/site) to log and analyze experiments.
 
-For a brief introduction to using W&B on a cluster, I recommend the following [video](https://www.youtube.com/watch?v=LRmnr3LMS-4).
+The ML example is based on a Diffrax [supervised neural ODE regression example](https://docs.kidger.site/diffrax/examples/neural_ode/).
+
+For a brief introduction to using W&B on a cluster, I found the following [video](https://www.youtube.com/watch?v=LRmnr3LMS-4) helpful.
 
 # Weights and biases
 [Weights and biases](https://wandb.ai/site), aka W&B, is a platform for ML research that allows to:
