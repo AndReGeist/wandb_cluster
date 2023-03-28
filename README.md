@@ -36,7 +36,7 @@ After playing around with the code, you can download the python files and shell 
 A cluster enables us to scale computation if needed.
 
 For using the cluster (in my case the cluster of the RWTH Aachen), I found the following ressources helpful:
-- [Introduction to linux with nice Youtube videos](https://hpc-wiki.info/hpc/Introduction_to_Linux_in_HPC), you should feel comfortable using console commands and VIM
+- [Introduction to linux with nice Youtube videos](https://hpc-wiki.info/hpc/Introduction_to_Linux_in_HPC). It helps to be used to working with console commands and VIM
 - [Getting started with HPC](https://hpc-wiki.info/hpc/Getting_Started)
 - [Intro to job scheduling](https://pdc-support.github.io/hpc-intro/09-scheduling/)
 - [RWTH HPC mainpage](https://help.itc.rwth-aachen.de/service/rhr4fjjutttf/)
@@ -47,6 +47,7 @@ For using the cluster (in my case the cluster of the RWTH Aachen), I found the f
 The folder `cluster` contains the following files:
 - `basic_example.py` - Contains the same code as the notebook. Here we want to run the functions `main()` or `create_dataset`.
 - `sb.sh` - A simple shell script that activates a conda environment and executes a command such as executing a Python script.
+- `sb_arr.sh` - Same as `sb.sh` but runs an array of jobs.
 - `sweep_config.yaml` - Contains the settings for the W&B sweep.
 
 In what follows, we do the following jobs on the cluster:
