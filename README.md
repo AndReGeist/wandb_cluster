@@ -51,7 +51,7 @@ The folder `cluster` contains the following files:
 - `sweep_config.yaml` - Contains the settings for the W&B sweep.
 
 In what follows, we do the following jobs on the cluster:
-1) Run the script `basic_example.py` using python-fire to conveniently assign input parameters through the console
+1) Run the script `basic_example.py` using python-fire
 2) Setup a W&B sweep to do automatic parameter search on the cluster and manually assign compute nodes on the cluster on which the W&B agent executes `basic_example.py`
 3) Basically the above step, but we use a "job array" to run many jobs for the W&B sweep in parallel. 
 
@@ -76,7 +76,6 @@ To use a HPC cluster you need to:
 3) Optional: Create `config` file in `.ssh` with SSH preset:
 			   `host <short-name> HostName <host-name> User <username> TCPKeepAlive yes ForwardX11 yes`
 4) Write a [shell script](https://hpc-wiki.info/hpc/Introduction_to_Linux_in_HPC/Shell_scripting) that instructs [SLURM](https://hpc-wiki.info/hpc/SLURM) what you want the cluster's **compute nodes** to do. Check [scheduling basics](https://hpc-wiki.info/hpc/Scheduling_Basics).
-	- `--mem=<memlimit>` must not be used on RWTH clusters
 	- Shebang of the batch script **must be** `#!/usr/bin/zsh` on RWTH cluster
 5) Clone project from git `git clone <git-project-URL>`
 	- If authentication fails see [here](https://ginnyfahs.medium.com/github-error-authentication-failed-from-command-line-3a545bfd0ca8)
