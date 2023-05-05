@@ -110,6 +110,10 @@ e.g.
 	- Using secure copy for single files, e.g. `$ scp your_username@remotehost.edu:foobar.txt /some/local/directory`
 	- Using **rsync** for multiple files
 
+Troubleshooting:
+- Inside the batch script `sb.sh` you need to specify the right conda environment.
+- The folders `errors` and `outputs` must be created inside your project folder using `mkdir <folder name>`
+
 **W&B sweeps**
 
 To let W&B do the parameter search for you...
