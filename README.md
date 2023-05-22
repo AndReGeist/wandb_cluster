@@ -1,12 +1,10 @@
-Research on optimizing ML models with many parameters is **more efficient** if we...
-- Automate experiment logging and parameter search with weights and biases
-- Offload computation to a compute cluster enabling us to scale computation
+ML research is **more efficient** if we...
+- Automate experiment logging and parameter search
+- Offload computation to a compute cluster
 
 This repository provides Python and Shell script examples demonstrating how to run experiments on a HPC cluster using [wandb](https://wandb.ai/site) to log and analyze experiments.
 
-The ML example is based on a Diffrax [supervised neural ODE regression example](https://docs.kidger.site/diffrax/examples/neural_ode/).
-
-For a brief introduction to using W&B on a cluster, I found the following [video](https://www.youtube.com/watch?v=LRmnr3LMS-4) helpful.
+The ML example is based on a Diffrax [supervised neural ODE regression example](https://docs.kidger.site/diffrax/examples/neural_ode/). For a brief introduction to using W&B on a cluster, I found the following [video](https://www.youtube.com/watch?v=LRmnr3LMS-4) helpful.
 
 # Weights and biases
 [Weights and biases](https://wandb.ai/site), aka W&B, is a platform for ML research that allows to:
@@ -127,7 +125,7 @@ as often as you want. W&B will do the parameter selection and tell the compute n
 
 **Running W&B sweeps using SLURM job arrays**
 
-A sweep might run for a long time, depending on how many parameters shall be checked. If a job is too long, it takes more time until the job gets a free slot on the cluster and potentially costs more cluster credits. We avoid these issues by using SLURM [job arrays](https://hpc-wiki.info/hpc/SLURM#Array_and_Chain_Jobs) in the shell script `sb_gpu_arr.sh`. Here, we run in total 30 jobs á 10 minutes with 5 jobs running at the same time by using the command...
+A sweep might run for a long time, depending on how many parameters shall be checked. If a job is too long, it takes more time until the job gets a free slot on the cluster and potentially costs more cluster credits. We avoid these issues by using SLURM [job arrays](https://hpc-wiki.info/hpc/SLURM#Array_and_Chain_Jobs) in the shell script `sb_arr.sh`. Here, we run in total 30 jobs á 10 minutes with 5 jobs running at the same time by using the command...
 ```
 #SBATCH --array=1-30%5
 ```
@@ -145,6 +143,14 @@ For a **very long simulation**, you can use the shell command to tell SLURM that
 sbatch sb_arr_altered.sh python3 <simulation-file-name> -statefile=simstate.state
 ```
 If the simulation does not finish in time it will be followed by the next array task, which picks up right at where the simulation left (by reading in "simstate.state").
+
+**Running SLURM job arrays using GPU and CUDA**
+The file `sb_gpu_arr.sh` illustrates how to use the [RWTH cluster with CUDA](https://help.itc.rwth-aachen.de/service/rhr4fjjutttf/article/85966da9155f4042877b536fa494b489/). Make sure that the correct conda environement is being used and that the ML library installed in this environment is compatible with the specified CUDA version.
+
+Helpful console commands:
+- List CUDA version available on cluster: `module spider CUDA`
+- Check CUDA version: `nvcc --version`
+- Find CUDA path: `$CUDA_ROOT`
 
 ## Handy tricks
 - The python-fire library automatically generates command line interfaces (CLIs) from python objects, e.g. assume you have a Python file "main.py"...
